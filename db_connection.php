@@ -1,15 +1,19 @@
 <?php
 // Database configuration
-$servername = "localhost";
-$username = "root"; // Your MySQL username
-$password = ""; // Your MySQL password
-$dbname = "home_automation";
+$host = 'localhost';
+$dbname = 'home_automation'; // Make sure this is your correct database name
+$username = 'root';          // Your database username
+$password = '';              // Your database password
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+try {
+    // Create a new PDO instance
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    // Set PDO to throw exceptions on error
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+} catch (PDOException $e) {
+    // If the connection fails, stop the script and show an error
+    die("Database connection failed: " . $e->getMessage());
 }
 ?>

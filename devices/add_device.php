@@ -4,7 +4,7 @@ session_start();
 // 1. Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     // If not, redirect to the login page
-    header('Location: login.html');
+    header('Location: ../login.html');
     exit();
 }
 
@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['device_name']) && !empty($_POST['device_type'])) {
     
     // Include the database connection file
-    include 'db_connection.php';
+    include '../db_connection.php';
 
     // 3. Sanitize and retrieve form data
     $device_name = htmlspecialchars($_POST['device_name']);
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['device_name']) && !e
         // Execute the statement with the form data
         if ($stmt->execute([$user_id, $device_name, $device_type, $status, $connection_status])) {
             // 5. If successful, redirect to the dashboard
-            header('Location: dashboard.php');
+            header('Location: ../dashboard.php');
             exit();
         } else {
             // Handle potential execution errors
