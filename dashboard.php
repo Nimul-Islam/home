@@ -65,7 +65,317 @@ try {
     <title>Dashboard - HomeSphere</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* ===== General Body & Typography ===== */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa; /* Lighter background for a cleaner look */
+    color: #343a40;
+    margin: 0;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-weight: 700; /* Bolder headings */
+    color: #212529;
+}
+
+a {
+    color: #007bff; /* Brighter blue for links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+/* ===== Main Application Layout ===== */
+.app-header {
+    background-color: #fff;
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.app-header .logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #007bff;
+}
+
+.app-header .nav-links a {
+    margin: 0 15px;
+    font-weight: 500;
+    color: #495057;
+}
+.app-header .nav-links a.active {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 4px;
+}
+
+.user-menu a {
+    font-weight: 500;
+    color: #dc3545; /* Red for logout */
+}
+
+.main-content {
+    padding: 40px;
+    max-width: 1400px; /* Wider layout for command center */
+    margin: 0 auto;
+}
+
+/* ===== Dashboard Layout ===== */
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px; /* Main content and sidebar */
+    gap: 40px;
+}
+.main-column {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+.sidebar-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Page Header */
+.page-header {
+    margin-bottom: 0;
+}
+.page-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+.page-header .subtitle {
+    margin-top: 5px;
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: 500;
+    border: none;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+.btn-primary:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* ===== Dashboard Sections ===== */
+.dashboard-section {
+    width: 100%;
+}
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.section-header h2 {
+    margin: 0;
+    font-size: 1.75rem;
+}
+
+/* Scenes Grid */
+.scenes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+}
+.scene-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+.scene-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
+    color: #007bff;
+    border-color: #007bff;
+}
+.scene-card i {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+.scene-add { color: #6c757d; background-color: #f8f9fa; }
+.scene-add:hover { color: #212529; border-color: #ced4da; }
+
+/* Rooms & Devices */
+.room-container {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+.room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+.device-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+.device-card {
+    background-color: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.device-card.status-on {
+    background-color: #e7f3ff;
+    border: 1px solid #007bff;
+}
+.device-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+}
+.device-icon {
+    font-size: 36px;
+    color: #007bff;
+}
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-top: 10px;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ced4da;
+    transition: .4s;
+    border-radius: 34px;
+}
+.slider:before {
+    position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .slider { background-color: #007bff; }
+input:checked + .slider:before { transform: translateX(26px); }
+
+/* Sidebar */
+.sidebar-widget {
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+.sidebar-widget h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 10px;
+}
+.glance-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    text-align: center;
+}
+.glance-item span {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.schedule-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.schedule-list li {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.schedule-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+.schedule-icon.action-on { background-color: #28a745; }
+.schedule-icon.action-off { background-color: #dc3545; }
+
+/* Notification Toast */
+.notification-toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(150%);
+    background-color: #212529;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    font-weight: 500;
+    transition: transform 0.5s ease-in-out;
+    z-index: 2000;
+}
+.notification-toast.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .dashboard-layout {
+        grid-template-columns: 1fr; /* Stack columns on smaller screens */
+    }
+    .sidebar-column {
+        order: -1; /* Move sidebar to top on mobile */
+    }
+}
+@media (max-width: 768px) {
+    .app-header {
+        flex-direction: column;
+        padding: 16px 20px;
+        gap: 10px;
+    }
+    .main-content {
+        padding: 20px;
+    }
+}
+
+</style>
 </head>
 
 <body>
@@ -74,8 +384,8 @@ try {
         <div class="logo">HomeSphere</div>
         <nav class="nav-links">
             <a href="dashboard.php" class="active">Dashboard</a>
-            <a href="rooms.php">Rooms</a>
-            <a href="schedules.php">Schedules</a>
+            <a href="rooms/rooms.php">Rooms</a>
+            <a href="schedules/schedules.php">Schedules</a>
             <a href="scenes/manage_scenes.php">Scenes</a>
         </nav>
         <div class="user-menu"><a href="logout.php">Logout</a></div>
@@ -87,7 +397,7 @@ try {
                 <h1>Dashboard</h1>
                 <p class="subtitle">Welcome back, <?php echo htmlspecialchars($username); ?>!</p>
             </div>
-            <a href="add_device.html" class="btn-primary"><i class="fas fa-plus"></i> Add Device</a>
+            <a href="devices/add_device.html" class="btn-primary"><i class="fas fa-plus"></i> Add Device</a>
         </div>
 
         <div class="stats-grid">
@@ -149,7 +459,7 @@ try {
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <div class="empty-state minimal">
-                                    <p>No devices in this room. <a href="add_device.html">Add one!</a></p>
+                                    <p>No devices in this room. <a href="devices/add_device.html">Add one!</a></p>
                                 </div>
                             <?php endif; ?>
                         </div>

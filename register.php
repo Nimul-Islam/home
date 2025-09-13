@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Prepare the SQL statement to prevent SQL injection
         $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($sql);
+        $stmt = $pdo->prepare($sql);
 
         // Execute the prepared statement with the user's data
         if ($stmt->execute([$username, $email, $password_hash])) {
